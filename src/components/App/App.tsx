@@ -1,5 +1,5 @@
 import css from './App.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import MovieGrid from '../MovieGrid/MovieGrid';
 import Loader from '../Loader/Loader';
@@ -10,6 +10,7 @@ import type { Movie } from '../../types/movie';
 import type { MovieHttpResponse } from '../../types/data';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import ReactPaginate from 'react-paginate';
+import  { Toaster, toast } from 'react-hot-toast';
 
 export default function App() {
     const [query, setQuery] = useState<string>("");
@@ -40,7 +41,15 @@ export default function App() {
         setSelectedMovie(null);
     };
 
+    useEffect(() => {
+        if (isSuccess && data?.results.length === 0) {
+            toast('No movies found for your request.',);
+        }
+    }, [isSuccess, data]);
+
+
     return (<div className={css.app}>
+    <Toaster />
     <SearchBar 
     onSubmit={handleSubmit} 
     />

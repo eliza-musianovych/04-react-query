@@ -1,5 +1,5 @@
 import css from './MovieModal.module.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { Movie } from '../../types/movie';
 import { createPortal } from 'react-dom';
 import { imgURL } from '../../services/movieService';
@@ -9,6 +9,8 @@ interface MovieModalProps {
     onClose: () => void;
 }
 export default function MovieModal({movie, onClose}: MovieModalProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -24,6 +26,8 @@ export default function MovieModal({movie, onClose}: MovieModalProps) {
 
     document.addEventListener("keydown", handleEsc);
     document.body.style.overflow = "hidden";
+
+    closeButtonRef.current?.focus();
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
@@ -44,7 +48,7 @@ export default function MovieModal({movie, onClose}: MovieModalProps) {
          &times;
         </button>
             <img
-            src={`${imgURL}${movie.backdrop_path}`}
+            src={`${imgURL}${movie.backdrop_path || movie.poster_path}`}
             alt={movie.title}
             className={css.image}
             />

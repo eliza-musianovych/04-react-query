@@ -7,7 +7,6 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieModal from '../MovieModal/MovieModal';
 import { fetchMovies } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
-import type { MovieHttpResponse } from '../../types/data';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import ReactPaginate from 'react-paginate';
 import  { Toaster, toast } from 'react-hot-toast';
@@ -18,7 +17,7 @@ export default function App() {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-    const {data, isSuccess, isLoading, isError} = useQuery<MovieHttpResponse, Error>({
+    const {data, isSuccess, isLoading, isError} = useQuery({
         queryKey: ['movies', query, currentPage],
         queryFn: () => fetchMovies(query, currentPage),
         enabled: query !== "",

@@ -1,5 +1,10 @@
 import axios from "axios";
-import type { MovieHttpResponse } from "../types/data";
+import type { Movie } from "../types/movie";
+
+export interface MovieHttpResponse {
+    results: Movie[];
+    total_pages: number;
+}
 
 const URL = 'https://api.themoviedb.org/3/search/movie';
 
